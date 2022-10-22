@@ -1,4 +1,4 @@
-from ShoppingApp import views
+from shoppingapp import views
 
 """djangShopping URL Configuration
 

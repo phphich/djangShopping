@@ -2,7 +2,7 @@ import datetime
 
 from django.forms import modelformset_factory
 from django.shortcuts import render,redirect,get_object_or_404, HttpResponse
-from ShoppingApp.forms import *
+from shoppingapp.forms import *
 from django.contrib import messages
 import datetime, os
 from django.db.models import Q

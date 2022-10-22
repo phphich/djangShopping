@@ -1,5 +1,5 @@
 from django.contrib import admin
-from ShoppingApp.models import *
+from shoppingapp.models import *
 # Register your models here.
 admin.site.register(Categories)
 admin.site.register(Products)
@@ -8,6 +8,7 @@ admin.site.register(Customers)
 admin.site.register(Orders)
 admin.site.register(OrderDetails)
 admin.site.register(Transfers)
+
 
 
 
