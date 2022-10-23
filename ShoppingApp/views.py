@@ -6,6 +6,16 @@ from shoppingapp.forms import *
 from django.contrib import messages
 import datetime, os
 from django.db.models import Q
+from django.templatetags.static import static
+from django.conf import settings
+
+def test(request):
+    PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
+    dir = PROJECT_PATH.split('\\')
+    dir = dir[len(dir)-1]
+    print(settings.BASE_DIR, ": ",  dir)
+
+    return HttpResponse("")
 
 def home(request):
     return render(request, 'home.html')
@@ -66,18 +76,26 @@ def productNew(request):
         if form.is_valid():
             newForm = form.save(commit=False)
             pid = newForm.pid
-            filename = newForm.picture.name
-            point = filename.rfind('.')
-            ext = filename[point:]
-            filename = 'static/products/' + filename
-            newfilename = 'static/products/' + pid + ext
-            newForm.save()
+            # filename = newForm.picture.name
+            filepath = newForm.picture.name
+            # point = filename.rfind('.')
+            # ext = filename[point:]
+            point = filepath.rfind('.')
+            ext = filepath[point:]
+            filenames = filepath.split('/')
+            filename = filenames[len(filenames)-1]
+            # filename = filename
+            newfilename = pid + ext
+            newForm.save() # product_tmp/xxx.xxx
             product = get_object_or_404(Products, pid=pid)
-            product.picture.name = newfilename
+            product.picture.name = '/products/'+newfilename # pxxx.xxx
             product.save()
-            if os.path.exists(newfilename):
-                os.remove(newfilename)  # file exits, delete it
-            os.rename(filename, newfilename)
+            PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
+            base = PROJECT_PATH.split('\\')
+            base = base[len(base) - 1]
+            if os.path.exists('static/products/' + newfilename):
+                os.remove('static/products/' + newfilename)  # file exits, delete it
+            os.rename('products_tmp/'+filename, 'static/products/' + newfilename)
         else:
             product = get_object_or_404(Products, pid=request.POST['pid'])
             if product:
@@ -99,18 +117,25 @@ def productUpdate(request, pid):
         if form.is_valid():
             newForm = form.save(commit=False)
             pid = newForm.pid
+            print(newForm.picture.name)
             if newForm.picture.name != picture: #  หากเลือกรูปสินค้าใหม่
                 newForm.save()
-                filename = newForm.picture.name
-                point = filename.rfind('.')
-                ext = filename[point:]
-                newfilename = 'static/products/' + pid + ext
-                if os.path.exists(newfilename): # file exits, delete it
-                    os.remove(newfilename)
-                os.rename(filename, newfilename)
+                filepath = newForm.picture.name
+                point = filepath.rfind('.')
+                ext = filepath[point:]
+                filenames = filepath.split('/')
+                filename = filenames[len(filenames) - 1]
+                newfilename = pid + ext
+                # filename = newForm.picture.name
+                # point = filename.rfind('.')
+                # ext = filename[point:]
+                newfilename =  pid + ext
                 product = get_object_or_404(Products, pid=pid)
-                product.picture.name = newfilename
+                product.picture.name = '/products/' +newfilename
                 product.save()
+                if os.path.exists('static/products/' + newfilename): # file exits, delete it
+                    os.remove('static/products/' +newfilename)
+                os.rename('products_tmp/'+ filename, 'static/products/' +newfilename)
             else:
                 newForm.save()
         return redirect('productList')
@@ -126,8 +151,8 @@ def productDelete(request, pid):
     picture = product.picture.name  # รูปสินค้าเดิม
     if request.method == 'POST':
         product.delete()
-        if os.path.exists(picture):  # file exits, delete it
-            os.remove(picture)
+        if os.path.exists('static/'+picture):  # file exits, delete it
+            os.remove('static/'+picture)
         return redirect('productList')
     else:
         form = ProductsForm(instance=product)
@@ -333,18 +358,23 @@ def productShop(request):
 
 
 def showBasket(request):
+    cart = request.session.get('cart')
     if request.method == 'POST':
         action = request.POST.get('action')
         pid = request.POST.get('pid')
         qnt = int(request.POST.get('qnt'))
-        cart = request.session.get('cart')
-        if action=="Update":
+        if action=="Update": #กดปุ่ม Update
             if cart[pid]:
                 cart[pid] = qnt
-        else:
+        else: # กดปุ่มลบ
             del cart[pid]
         request.session['cart'] = cart
         request.session['count'] = len(cart)
+    if len(cart) == 0:
+        del request.session['cart']
+        del request.session['count']
+        del request.session['sum']
+        return redirect('productShop')
 
     cart = request.session.get('cart')
     items = []
@@ -420,7 +450,7 @@ def clearBasket(request):
     del request.session['cart']
     del request.session['count']
     del request.session['sum']
-    return redirect('home')
+    return redirect('productShop')
 
 def showAllOrder(request):
     orders = []

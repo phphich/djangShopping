@@ -17,7 +17,7 @@
     <table class="table table-info">
         <tr>
         {% for product in products %}
-            <td> <img src="{{ product.picture }}" width="200px" height="18px" class="img img-thumbnail"></td>
+            <td> <img src="{% static product.picture %}" width="200px" height="18px" class="img img-thumbnail"></td>
             <td class="text-primary"> Product ID:<b> {{ product.pid }} </b> <br>
                 Name: <b>{{ product.name }}</b> <br>
                 Category: <b> {{ product.category.name }} </b><br>

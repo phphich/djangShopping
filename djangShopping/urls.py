@@ -63,6 +63,7 @@ urlpatterns = [
     path('<oid>/orderCancel', views.orderCancel, name='orderCancel'),
     path('<oid>/orderReject', views.orderReject, name='orderReject'),
 
-    path('dtstamp', views.testDateTimeStamp, name='dtstamp')
+    path('dtstamp', views.testDateTimeStamp, name='dtstamp'),
+    path('test', views.test, name='test'),
 
 ]

@@ -26,7 +26,7 @@
             {% csrf_token %}
             <input type="hidden" name="pid" value="{{ item.product.pid }}">
             <tr class="bg-white">
-                <td class="text-center"> <img src="{{ item.product.picture }}" width="120px" height="100px" class="img img-thumbnail"><br>
+                <td class="text-center"> <img src="{% static item.product.picture %}" width="120px" height="100px" class="img img-thumbnail"><br>
                     {{ item.product.pid }}
                 </td>
                 <td class="text-start">{{ item.product.name }}</td>

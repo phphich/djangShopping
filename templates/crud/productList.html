@@ -21,7 +21,7 @@
             <td>{{ product.category.name }}</td>
             <td class="text-end">{{ product.price | floatformat:2}}</td>
             <td class="text-center">{{ product.net }}</td>
-            <td><img src="{{ product.picture }}" width="120px" height="100px" class="img img-thumbnail"></td>
+            <td><img src="{% static product.picture%}" width="120px" height="100px" class="img img-thumbnail"></td>
             <td class="text-lg-center">
                 <a href="{% url 'productUpdate' product.pid %}" class="btn btn-secondary"> <i class="fa fa-tools"> </i> </a>
                 <a href="{% url 'productDelete' product.pid %}" class="btn btn-danger"> <i class="fa fa-trash"> </i> </a>
