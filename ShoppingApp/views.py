@@ -6,8 +6,6 @@ from shoppingapp.forms import *
 from django.contrib import messages
 import datetime, os
 from django.db.models import Q
-from django.templatetags.static import static
-from django.conf import settings
 
 def test(request):
     PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
@@ -90,13 +88,14 @@ def productNew(request):
             product = get_object_or_404(Products, pid=pid)
             product.picture.name = '/products/'+newfilename # pxxx.xxx
             product.save()
-            PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
-            base = PROJECT_PATH.split('\\')
-            base = base[len(base) - 1]
+
             # บนเซิร์ฟเวอร์ต้องเป็น djangShopping/static/products/'
+            # if os.path.exists('static/products/' + newfilename):
+            #     os.remove('static/products/' + newfilename)  # file exits, delete it
+            # os.rename('products_tmp/'+filename, 'static/products/' + newfilename)
             if os.path.exists('static/products/' + newfilename):
                 os.remove('static/products/' + newfilename)  # file exits, delete it
-            os.rename('products_tmp/'+filename, 'static/products/' + newfilename)
+            os.rename('static/products/'+filename, 'static/products/' + newfilename)
         else:
             product = get_object_or_404(Products, pid=request.POST['pid'])
             if product:
@@ -137,7 +136,7 @@ def productUpdate(request, pid):
                 # บนเซิร์ฟเวอร์ต้องเป็น djangShopping/static/products/'
                 if os.path.exists('static/products/' + newfilename): # file exits, delete it
                     os.remove('static/products/' +newfilename)
-                os.rename('products_tmp/'+ filename, 'static/products/' +newfilename)
+                os.rename('static/products/'+ filename, 'static/products/' +newfilename)
             else:
                 newForm.save()
         return redirect('productList')
@@ -154,8 +153,9 @@ def productDelete(request, pid):
     if request.method == 'POST':
         product.delete()
         # บนเซิร์ฟเวอร์ต้องเป็น djangShopping/static/products/'
-        if os.path.exists('static/products/'+picture):  # file exits, delete it
-            os.remove('static/products/'+picture)
+        # ใน table db เก็บ /products/xxx.xx
+        if os.path.exists('static'+picture):  # file exits, delete it
+            os.remove('static'+picture)
         return redirect('productList')
     else:
         form = ProductsForm(instance=product)

@@ -23,7 +23,7 @@ class Products(models.Model):
     name = models.CharField(max_length=50, default="")
     price=models.FloatField(default=0.00)
     net = models.IntegerField(default=0)
-    picture = models.ImageField(upload_to ='products_tmp/', default="")
+    picture = models.ImageField(upload_to ='static/products/', default="")
     category = models.ForeignKey(Categories, on_delete=models.CASCADE, default=None)
     def __str__(self):
         return self.pid + ":" + self.name + ", " + str(self.price)
