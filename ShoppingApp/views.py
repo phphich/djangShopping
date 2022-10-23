@@ -93,6 +93,7 @@ def productNew(request):
             PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
             base = PROJECT_PATH.split('\\')
             base = base[len(base) - 1]
+            # บนเซิร์ฟเวอร์ต้องเป็น djangShopping/static/products/'
             if os.path.exists('static/products/' + newfilename):
                 os.remove('static/products/' + newfilename)  # file exits, delete it
             os.rename('products_tmp/'+filename, 'static/products/' + newfilename)
@@ -133,6 +134,7 @@ def productUpdate(request, pid):
                 product = get_object_or_404(Products, pid=pid)
                 product.picture.name = '/products/' +newfilename
                 product.save()
+                # บนเซิร์ฟเวอร์ต้องเป็น djangShopping/static/products/'
                 if os.path.exists('static/products/' + newfilename): # file exits, delete it
                     os.remove('static/products/' +newfilename)
                 os.rename('products_tmp/'+ filename, 'static/products/' +newfilename)
@@ -151,8 +153,9 @@ def productDelete(request, pid):
     picture = product.picture.name  # รูปสินค้าเดิม
     if request.method == 'POST':
         product.delete()
-        if os.path.exists('static/'+picture):  # file exits, delete it
-            os.remove('static/'+picture)
+        # บนเซิร์ฟเวอร์ต้องเป็น djangShopping/static/products/'
+        if os.path.exists('static/products/'+picture):  # file exits, delete it
+            os.remove('static/products/'+picture)
         return redirect('productList')
     else:
         form = ProductsForm(instance=product)
