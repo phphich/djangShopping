@@ -18,8 +18,10 @@
         {% else %}
             <a href="{% url 'categoryList' %}" class="list-group-item list-group-item-action list-group-item-light text-primary">
                 <i class="fa fa-list"></i> Category Listing</a>
-             <a href="{% url 'productList' %}" class="list-group-item list-group-item-action list-group-item-light text-primary">
+            <a href="{% url 'productList' %}" class="list-group-item list-group-item-action list-group-item-light text-primary">
                 <i class="fa fa-list"></i> Product Listing</a>
+            <a href="{% url 'productListPage' 1 %}" class="list-group-item list-group-item-action list-group-item-light text-primary">
+                <i class="fa fa-list"></i> Product Listing (Pagination)</a>
             <a href="{% url 'employeeList' %}" class="list-group-item list-group-item-action list-group-item-light text-primary">
                 <i class="fa fa-list"></i> Employee Listing</a>
             <a href="{% url 'customerList' %}" class="list-group-item list-group-item-action list-group-item-light text-primary">

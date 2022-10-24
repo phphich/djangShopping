@@ -21,11 +21,11 @@
             <td class="text-primary"> Product ID:<b> {{ product.pid }} </b> <br>
                 Name: <b>{{ product.name }}</b> <br>
                 Category: <b> {{ product.category.name }} </b><br>
-                Price: <b>{{ product.price }} </b> <br><br>
+                Price: <b>{{ product.price | floatformat:2}} </b> <br><br>
                 <form method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="pid" value="{{ product.pid }}">
-                    <input type="number" name="qnt" value="1" min="1" style="width:75px">
+                    <input type="number" name="qnt" value="1" min="1" max="20" style="width:75px">
                     <button type="submit" class="btn btn-success">
                         <i class="fa fa-shopping-cart"></i> Add to Cart
                     </button>

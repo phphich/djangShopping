@@ -28,6 +28,7 @@ urlpatterns = [
     path('<id>/categoryDelete', views.categoryDelete, name='categoryDelete'),
 
     path('productList', views.productList, name='productList'),
+    path('<pageNo>/productListPage', views.productListPage, name='productListPage'),
     path('productNew', views.productNew, name='productNew'),
     path('<pid>/productUpdate', views.productUpdate, name='productUpdate'),
     path('<pid>/productDelete', views.productDelete, name='productDelete'),
