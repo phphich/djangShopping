@@ -2,6 +2,7 @@
 # ติดตั้ง Package ต่าง ๆ ของโปรเจ็กต์ โดยใช้คำสั่ง pip install -r requirements.txt
 # Log in เข้า mySQL โดยใช้ root 
 # สร้างฐานข้อมูลใน mySQL ชื่อ dbtest
+# ใช้คำสั่ง python manage.py makemigrations, python manage.py migrate, python manage.py createuperuser 
 # นำสคริปต์ dbtest.sql ไป Execute ในฐานข้อมูล dbtest 
 # สร้าง user ชื่อ bisdev พร้อมกำหนด รหัสผ่าน 12345 หรือชื่อและรหัสผ่านตามที่ต้องการก็ได้ 
 # ให้สิทธิ์การเข้าถึงฐานข้อมูล dbtest แก่ bisdev
